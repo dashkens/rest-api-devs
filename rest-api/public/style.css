@@ -1,0 +1,181 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700&display=swap');
+
+body{
+    font-family: Raleway;
+    color: #555;
+    background: #ff5252;
+    margin: 10px 30px;
+}
+
+/* nav */
+
+nav {
+    max-width: 800px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto;
+}
+
+nav .title a{
+    color: #fff;
+    font-size: 48px;
+}
+
+nav a {text-decoration: none;}
+
+nav ul{
+    display: flex;
+    align-items: center;
+}
+
+nav li{margin-left: 20px;}
+nav li:hover{
+    padding: 15px 0;
+    background: #555;
+    border-radius: 4px;
+}
+nav li a{
+    color:#555;
+    padding: 10px;
+}
+nav li a:hover{color:#ddd;}
+
+#homepage{
+    max-width: 800px;
+    margin: 60px auto;
+    padding: 10px 20px;
+    background: #fdfdfd;
+    border-radius: 4px;
+    box-shadow: 1px 2px 3px rgba(0,0,0,0.2);
+}
+
+input[type="number"], #create-dev-container input[type="text"], select{
+    display: block;
+    width: 300px;
+    margin: 20px 0;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+label{
+    font-weight: bold;
+}
+
+#homepage h2{
+    text-align: center;
+}
+
+.create-dev {
+    max-width: 350px;
+    background-color: #eee;
+    margin: 30px auto;
+}
+
+.create-dev input {
+    display: block;
+}
+
+form{
+    max-width: 350px;
+    margin: 30px auto;
+}
+
+input[type="submit"]{
+    background: #555;
+    color: #fff;
+    border: 0;
+    padding: 10px;
+    font-size: 18px;
+    width: 200px;
+    margin: 0 auto;
+    display: block;
+    cursor: pointer;
+    border-radius: 4px;
+}
+ul{
+    margin: 0;
+    padding: 0;
+}
+li{
+    padding: 15px 0;
+    background: #eee;
+    list-style-type: none;
+    font-size: 18px;
+    font-weight: bold;
+    margin: 10px 0;
+    border-radius: 4px;
+}
+span{
+    display: inline-block;
+    margin: 0 20px;
+}
+span.dist{
+    color: green;
+    float: right;
+}
+span.true{
+    border-radius: 10px;
+    width: 10px;
+    height: 10px;
+    background: green;
+}
+span.false{
+    border-radius: 10px;
+    width: 10px;
+    height: 10px;
+    background: #ff5252;
+}
+button{
+    float: right;
+    background: green;
+    border: 0;
+    padding: 5px 10px;
+    color: #fff;
+    display: inline-block;
+    border-radius: 4px;
+    cursor: pointer;
+}
+button.false{display: none;}
+
+#create-dev-container {
+    max-width: 800px;
+    margin: 50px auto;
+    background-color: #fdfdfd;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+#create-dev-container h2 {
+    color:#ff5252;
+    text-align: center;
+    border-bottom: 1px solid #ff5252;
+    padding-bottom: 15px;
+    margin: 0 80px;
+}
+
+#create-dev-form{
+    max-width: 500px;
+    margin: 30px auto;
+}
+#create-dev-container p {
+    font-size: 18px;
+    padding-top: 20px;
+    font-weight: bold;
+    color:#ff5252
+}
+
+#create-dev-container form input[type="checkbox"] + label {
+    border-right: 1px solid green;
+    margin-right: 10px;
+    padding-right: 5px;
+    display: inline-block
+}
+
+#create-dev-container form input[type="checkbox"]{
+    margin-bottom: 20px;
+    
+}
+
+
+
