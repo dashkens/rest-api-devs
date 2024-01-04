@@ -1,4 +1,3 @@
-import { send } from 'process'
 import Dev from '../models/programuotojas.js'
 
 //dar reikes papildyti, pvz tikrinimas, jei vardai sutampa ir pan.
@@ -77,17 +76,17 @@ export const prog_delete = (req, res) => {
         .catch(err => console.log(err))
 }
 
-// export const prog_getById = async (req, res) => {
-//     try {
-//         const developer = await Dev.findById(req.params.id);
+export const prog_getById = async (req, res) => {
+    try {
+        const developer = await Dev.findById(req.params.id);
 
-//         if (developer) {
-//             res.render('editDev', { developerData: developer });
-//         } else {
-//             res.status(404).send('Developer was not found');
-//         }
-//     } catch (err) {
-//         console.error(err);
-//         res.status(500).send('Internal Server Error');
-//     }
-// };
+        if (developer) {
+            res.status(200).json(developer );
+        } else {
+            res.status(404).send('Developer was not found');
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Internal Server Error');
+    }
+};

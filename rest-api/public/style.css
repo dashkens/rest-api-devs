@@ -66,6 +66,7 @@ label{
     text-align: center;
 }
 
+/* create dev */
 .create-dev {
     max-width: 350px;
     background-color: #eee;
@@ -80,6 +81,8 @@ form{
     max-width: 350px;
     margin: 30px auto;
 }
+
+
 
 input[type="submit"]{
     background: #555;
@@ -105,6 +108,7 @@ li{
     font-weight: bold;
     margin: 10px 0;
     border-radius: 4px;
+
 }
 span{
     display: inline-block;
@@ -126,8 +130,7 @@ span.false{
     height: 10px;
     background: #ff5252;
 }
-button{
-    float: right;
+.edit-dev{
     background: green;
     border: 0;
     padding: 5px 10px;
@@ -136,7 +139,26 @@ button{
     border-radius: 4px;
     cursor: pointer;
 }
+
+.delete-dev{
+    margin-left: 5px;
+    background:rgba(255, 0, 0, 0.429);
+    border: 0;
+    padding: 5px 10px;
+    color: #fff;
+    display: inline-block;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btns {
+    float:right
+}
+
+
 button.false{display: none;}
+
+/* create and edit dev forms */
 
 #create-dev-container {
     max-width: 800px;
@@ -166,8 +188,7 @@ button.false{display: none;}
 }
 
 #create-dev-container form input[type="checkbox"] + label {
-    border-right: 1px solid green;
-    margin-right: 10px;
+    margin-right: 15px;
     padding-right: 5px;
     display: inline-block
 }

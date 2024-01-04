@@ -7,10 +7,10 @@
     <input type="text" name="vardas" required>
 
     <p>Laisvas?</p>
-    <label for="laisvasTaip">Taip</label>
     <input type="radio" name="laisvas" value="taip">
-    <label for="laisvasNe">Ne</label>
+    <label for="laisvasTaip">Taip</label>
     <input type="radio" name="laisvas" value="ne">
+    <label for="laisvasNe">Ne</label>
 
     <!-- igudziai -->
     <p>Įgudžiai:</p>
@@ -60,85 +60,118 @@
 </div>
 
 <script>
+    const form = document.getElementById('create-dev-form')
+    const cityDropdown = document.getElementById('miestas')
 
-const form = document.getElementById('create-dev-form')
-const cityDropdown = document.getElementById('miestas')
+    const id = window.location.pathname.split('/').pop();
 
+    const fetchedDataToForm = (devData) => {
+            form.vardas.value = devData.vardas
 
-fetch('https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/geonames-all-cities-with-a-population-1000/records?limit=20&refine=timezone%3A%22Europe%22&refine=cou_name_en%3A%22Lithuania%22')
-    .then(response => response.json())
-    .then(data => {
-        console.log(data)
-        console.log(data.results[0].name)
+            //laisvas?
+            form.querySelector(`input[name="laisvas"][value="${devData.laisvas ? 'taip' : 'ne'}"]`).checked = true;
 
-        data.results.forEach(res => {
-            const option = document.createElement('option')
-            option.value = res.name
-            option.textContent = res.name
+            //igudziai
+            devData.tech.forEach(tech => {
+                form.querySelector(`input[name="tech"][value="${tech}"]`).checked = true;
+            });
 
-            const lon = res.coordinates.lon
-            const lat = res.coordinates.lat
-
-            // Prideti koordinates i option elementa
-            option.dataset.lon = lon;
-            option.dataset.lat = lat;
-
-            cityDropdown.appendChild(option)
-        })
-    })
-    .catch(err => console.error('something went wrong'))
-
-form.addEventListener('submit', async (e) => {
-    e.preventDefault()
-
-
-    //get values
-    const vardas = form.vardas.value;
-
-
-    const laisvasChecked = form.querySelector('input[name="laisvas"]:checked')
-
-    let laisvas = false
-    if(laisvasChecked.value === 'taip') {
-        laisvas = true
-    } 
-
-    //eina per visus checked tech
-    const tech = Array.from(form.querySelectorAll('input[name="tech"]:checked'))
-        .map(checked => checked.value);
-
-    //location
-    const selectedOption = cityDropdown.options[cityDropdown.selectedIndex];
-    console.log(selectedOption)
-    const lon = selectedOption.dataset.lon;
-    const lat = selectedOption.dataset.lat;      
-
-    const location = {
-        type: 'Point',
-        coordinates: [ parseFloat(lat), parseFloat(lon)]
-    };
-
-
-    try{
-        const id = window.location.pathname.split('/').pop();
-        const res = await fetch(`/api/programuotojai${id}`, {
-            method: 'PUT',
-            body: JSON.stringify({vardas, laisvas, tech, location}),
-            headers: {'Content-Type': 'application/json'}
-        })
         
-        if(!res.ok) {
-            throw new Error('Something is wrong')
         }
 
-        const data = await res.json()
-        console.log('Dev was updated: ', data)
-    
-        window.location.assign('/')
-        
-    } catch(err) {
-        console.log(err)
+        const fetchDevData = async () => {
+        try {
+            const res = await fetch(`/api/programuotojai/${id}`);
+            
+            if (res.ok) {
+                const devData = await res.json();
+                console.log(devData);
+                if (devData) {
+                    fetchedDataToForm(devData);
+                } else {
+                    console.log('No data received');
+                }
+            } else {
+                console.log('No data2');
+                throw new Error('Something is wrong');
+            }
+        } catch (err) {
+            console.log(err);
+        }
     }
-})
+        //calling fetchedData
+        fetchDevData()
+
+
+    fetch('https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/geonames-all-cities-with-a-population-1000/records?limit=20&refine=timezone%3A%22Europe%22&refine=cou_name_en%3A%22Lithuania%22')
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+            console.log(data.results[0].name)
+
+            data.results.forEach(res => {
+                const option = document.createElement('option')
+                option.value = res.name
+                option.textContent = res.name
+
+                const lon = res.coordinates.lon
+                const lat = res.coordinates.lat
+
+                // Prideti koordinates i option elementa
+                option.dataset.lon = lon;
+                option.dataset.lat = lat;
+
+                cityDropdown.appendChild(option)
+            })
+        })
+        .catch(err => console.error('something went wrong'))
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault()
+        //get values
+        const vardas = form.vardas.value;
+        const laisvasChecked = form.querySelector('input[name="laisvas"]:checked')
+
+        let laisvas = false
+        if(laisvasChecked.value === 'taip') {
+            laisvas = true
+        } 
+
+        //eina per visus checked tech
+        const tech = Array.from(form.querySelectorAll('input[name="tech"]:checked'))
+            .map(checked => checked.value);
+
+        //location
+        const selectedOption = cityDropdown.options[cityDropdown.selectedIndex];
+        console.log(selectedOption)
+        const lon = selectedOption.dataset.lon;
+        const lat = selectedOption.dataset.lat;      
+
+        const location = {
+            type: 'Point',
+            coordinates: [ parseFloat(lat), parseFloat(lon)]
+        };
+
+        
+        const updateData = { vardas, laisvas, tech, location };
+        try {
+            const res = await fetch(`/api/programuotojai/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updateData)
+            });
+
+            if (res.ok) {
+                window.location.assign('/');
+            } else {
+                console.log('Update failed');
+            }
+        } catch (err) {
+            console.error('Error during update:', err);
+        }
+
+    })
 </script>
 

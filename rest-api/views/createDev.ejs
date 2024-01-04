@@ -8,10 +8,11 @@
     <input type="text" name="vardas" required>
 
     <p>Laisvas?</p>
+    <input type="radio" name="laisvas" value="taip" checked>
     <label for="laisvasTaip">Taip</label>
-    <input type="radio" name="laisvas" value="taip">
-    <label for="laisvasNe">Ne</label>
+
     <input type="radio" name="laisvas" value="ne">
+    <label for="laisvasNe">Ne</label>
 
     <!-- igudziai -->
     <p>Įgudžiai:</p>
@@ -62,10 +63,8 @@
 
 
 <script>
-
     const form = document.getElementById('create-dev-form')
     const cityDropdown = document.getElementById('miestas')
-
 
     fetch('https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/geonames-all-cities-with-a-population-1000/records?limit=20&refine=timezone%3A%22Europe%22&refine=cou_name_en%3A%22Lithuania%22')
         .then(response => response.json())
@@ -93,12 +92,9 @@
     form.addEventListener('submit', async (e) => {
         e.preventDefault()
 
-
         //get values
         const vardas = form.vardas.value;
-
         const laisvasChecked = form.querySelector('input[name="laisvas"]:checked')
-
         let laisvas = false
         if(laisvasChecked.value === 'taip') {
             laisvas = true
@@ -118,7 +114,6 @@
             type: 'Point',
             coordinates: [ parseFloat(lat), parseFloat(lon)]
         };
-
 
         try{
             const res = await fetch('/api/programuotojai', {
